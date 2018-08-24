@@ -51,10 +51,18 @@
     <Compile Include="Maps\TaskMap.cs" />
     <Compile Include="Maps\UserMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Week6CapstoneTaskListContext.cs" />
+    <Compile Include="Week6CapstoneTaskListInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Week6CapstoneTaskList.Domain\Week6CapstoneTaskList.Domain.csproj">
+      <Project>{b0fba864-d869-480d-a4a5-d8787652f39f}</Project>
+      <Name>Week6CapstoneTaskList.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

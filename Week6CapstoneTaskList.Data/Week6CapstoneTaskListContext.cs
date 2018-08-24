@@ -8,7 +8,7 @@ using Week6CapstoneTaskList.Domain.Models;
 
 namespace Week6CapstoneTaskList.Data
 {
-    class Week6CapstoneTaskListContext : DbContext
+    public class Week6CapstoneTaskListContext : DbContext
     {
         public Week6CapstoneTaskListContext() : base("TaskList")
         {
