@@ -124,5 +124,23 @@ namespace Week6CapstoneTaskList.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult LogIn()
+        {
+            return View();
+        }
+
+        [HttpPost, ActionName("LogIn")]
+        public ActionResult LogIn(string UserName, string Password)
+        {
+            User user = db.Users.FirstOrDefault(u => u.Email == UserName && u.Password == Password);
+            if (user != null)
+            {
+                HttpCookie UserLogin = new HttpCookie("UserLogin");
+                UserLogin.Value = user.Id.ToString();
+                return RedirectToAction("Index","Tasks");
+            }        
+            return RedirectToAction("LogIn");            
+        }
     }
 }

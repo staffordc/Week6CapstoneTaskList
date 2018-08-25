@@ -1,12 +1,15 @@
 ﻿@model Week6CapstoneTaskList.Domain.Models.User
 
-<form>
+@using (Html.BeginForm())
+{
     <div>
-        <input type="text" name="username"/>
-        </div>
+        <input type="text" name="username" />
+    </div>
     <div>
         <input type="Password" name="password" />
     </div>
-    <div><input type="submit" name="booton">
-        </div>
-</form>
+    <div>
+        <input type="submit" name="booton">
+    </div>
+   
+}
