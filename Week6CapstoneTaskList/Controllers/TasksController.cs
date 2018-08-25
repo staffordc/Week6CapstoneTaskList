@@ -18,7 +18,9 @@ namespace Week6CapstoneTaskList.Controllers
         // GET: Tasks
         public ActionResult Index()
         {
-            var tasks = db.Tasks.Include(t => t.User);
+            HttpCookie UserLogin = Request.Cookies["UserLogin"];
+            var UserId = long.Parse(UserLogin.Value);
+            var tasks = db.Users.Include(u => u.Tasks).FirstOrDefault(u => u.Id == UserId).Tasks;
             return View(tasks.ToList());
         }
 
@@ -53,6 +55,9 @@ namespace Week6CapstoneTaskList.Controllers
         {
             if (ModelState.IsValid)
             {
+                HttpCookie UserLogin = Request.Cookies["UserLogin"];
+                var UserId = int.Parse(UserLogin.Value);
+                task.UserID = UserId;
                 db.Tasks.Add(task);
                 db.SaveChanges();
                 return RedirectToAction("Index");

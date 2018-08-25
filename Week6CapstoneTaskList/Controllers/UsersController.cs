@@ -137,7 +137,14 @@ namespace Week6CapstoneTaskList.Controllers
             if (user != null)
             {
                 HttpCookie UserLogin = new HttpCookie("UserLogin");
+                if (Request.Cookies["UserLogin"] != null)
+                {
+                    UserLogin = Request.Cookies["UserLogin"];   
+                }
                 UserLogin.Value = user.Id.ToString();
+                
+                Response.Cookies.Add(UserLogin);
+                                
                 return RedirectToAction("Index","Tasks");
             }        
             return RedirectToAction("LogIn");            
