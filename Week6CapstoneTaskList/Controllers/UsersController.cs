@@ -129,7 +129,7 @@ namespace Week6CapstoneTaskList.Controllers
         {
             return View();
         }
-
+        [ValidateAntiForgeryToken]
         [HttpPost, ActionName("LogIn")]
         public ActionResult LogIn(string UserName, string Password)
         {

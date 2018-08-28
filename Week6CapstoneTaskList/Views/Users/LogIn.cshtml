@@ -2,6 +2,7 @@
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div>
         User Email
         <input type="text" name="username" />
