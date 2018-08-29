@@ -11,6 +11,7 @@ using Week6CapstoneTaskList.Domain.Models;
 
 namespace Week6CapstoneTaskList.Controllers
 {
+    [Authorize]
     public class TasksController : Controller
     {
         public Week6CapstoneTaskListContext db = new Week6CapstoneTaskListContext();
