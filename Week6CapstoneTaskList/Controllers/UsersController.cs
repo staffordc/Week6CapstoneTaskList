@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using Week6CapstoneTaskList.Data;
@@ -11,11 +12,12 @@ using Week6CapstoneTaskList.Domain.Models;
 
 namespace Week6CapstoneTaskList.Controllers
 {
-    [Authorize]
+    
     public class UsersController : Controller
     {
-        private Week6CapstoneTaskListContext db = new Week6CapstoneTaskListContext();
 
+        private Week6CapstoneTaskListContext db = new Week6CapstoneTaskListContext();
+        
         // GET: Users
         public ActionResult Index()
         {
@@ -36,7 +38,7 @@ namespace Week6CapstoneTaskList.Controllers
             }
             return View(user);
         }
-
+        
         // GET: Users/Create
         public ActionResult Create()
         {
@@ -59,7 +61,7 @@ namespace Week6CapstoneTaskList.Controllers
 
             return View(user);
         }
-
+        
         // GET: Users/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -90,7 +92,7 @@ namespace Week6CapstoneTaskList.Controllers
             }
             return View(user);
         }
-
+        
         // GET: Users/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -125,13 +127,13 @@ namespace Week6CapstoneTaskList.Controllers
             }
             base.Dispose(disposing);
         }
-
+        
         public ActionResult LogIn()
         {
             return View();
         }
 
-        [AllowAnonymous]
+        
         [ValidateAntiForgeryToken]
         [HttpPost, ActionName("LogIn")]
         public ActionResult LogIn(string UserName, string Password)
@@ -147,7 +149,17 @@ namespace Week6CapstoneTaskList.Controllers
                 UserLogin.Value = user.Id.ToString();
                 
                 Response.Cookies.Add(UserLogin);
-                                
+
+                var identity = new ClaimsIdentity(new[] {
+                new Claim(ClaimTypes.Email, user.Email)
+                },
+                "ApplicationCookie");
+
+                var ctx = Request.GetOwinContext();
+                var authManager = ctx.Authentication;
+
+                authManager.SignIn(identity);
+
                 return RedirectToAction("Index","Tasks");
             }        
             return RedirectToAction("LogIn");            
