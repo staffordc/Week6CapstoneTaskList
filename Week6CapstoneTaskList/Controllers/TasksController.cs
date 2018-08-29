@@ -15,8 +15,9 @@ namespace Week6CapstoneTaskList.Controllers
     
     public class TasksController : Controller
     {
+        
         public Week6CapstoneTaskListContext db = new Week6CapstoneTaskListContext();
-
+        [Authorize]
         // GET: Tasks
         public ActionResult Index()
         {
@@ -25,7 +26,7 @@ namespace Week6CapstoneTaskList.Controllers
             var tasks = db.Users.Include(u => u.Tasks).FirstOrDefault(u => u.Id == UserId).Tasks;
             return View(tasks.ToList());
         }
-
+        [Authorize]
         // GET: Tasks/Details/5
         public ActionResult Details(int? id)
         {
@@ -40,14 +41,14 @@ namespace Week6CapstoneTaskList.Controllers
             }
             return View(task);
         }
-
+        [Authorize]
         // GET: Tasks/Create
         public ActionResult Create()
         {
             ViewBag.UserID = new SelectList(db.Users, "Id", "Email");
             return View();
         }
-
+        [Authorize]
         // POST: Tasks/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -68,7 +69,7 @@ namespace Week6CapstoneTaskList.Controllers
             ViewBag.UserID = new SelectList(db.Users, "Id", "Email", task.UserID);
             return View(task);
         }
-
+        [Authorize]
         // GET: Tasks/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -84,7 +85,7 @@ namespace Week6CapstoneTaskList.Controllers
             ViewBag.UserID = new SelectList(db.Users, "Id", "Email", task.UserID);
             return View(task);
         }
-
+        [Authorize]
         // POST: Tasks/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -101,7 +102,7 @@ namespace Week6CapstoneTaskList.Controllers
             ViewBag.UserID = new SelectList(db.Users, "Id", "Email", task.UserID);
             return View(task);
         }
-
+        [Authorize]
         // GET: Tasks/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -116,7 +117,7 @@ namespace Week6CapstoneTaskList.Controllers
             }
             return View(task);
         }
-
+        [Authorize]
         // POST: Tasks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -127,7 +128,7 @@ namespace Week6CapstoneTaskList.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [Authorize]
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -135,13 +136,6 @@ namespace Week6CapstoneTaskList.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-        private IEnumerable<Task> GetMyTasks()
-        {
-            var currentUserId = User.Identity.GetUserId();
-            User currentUser = db.Users.FirstOrDefault
-                (x => x.Id == currentUserId);
-            return db.Tasks.ToList().Where(x => x.User == currentUser);
         }
     }
 }

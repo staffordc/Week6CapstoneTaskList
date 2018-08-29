@@ -12,18 +12,18 @@ using Week6CapstoneTaskList.Domain.Models;
 
 namespace Week6CapstoneTaskList.Controllers
 {
-    [Authorize]
+    
     public class UsersController : Controller
     {
         
         private Week6CapstoneTaskListContext db = new Week6CapstoneTaskListContext();
-        
+        [Authorize]
         // GET: Users
         public ActionResult Index()
         {
             return View(db.Users.ToList());
         }
-
+        [Authorize]
         // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
@@ -38,7 +38,7 @@ namespace Week6CapstoneTaskList.Controllers
             }
             return View(user);
         }
-        
+        [Authorize]
         // GET: Users/Create
         public ActionResult Create()
         {
@@ -48,6 +48,7 @@ namespace Week6CapstoneTaskList.Controllers
         // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Email,Password")] User user)
@@ -61,7 +62,7 @@ namespace Week6CapstoneTaskList.Controllers
 
             return View(user);
         }
-        
+        [Authorize]
         // GET: Users/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -76,10 +77,11 @@ namespace Week6CapstoneTaskList.Controllers
             }
             return View(user);
         }
-
+        [Authorize]
         // POST: Users/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Email,Password")] User user)
@@ -92,7 +94,7 @@ namespace Week6CapstoneTaskList.Controllers
             }
             return View(user);
         }
-        
+        [Authorize]
         // GET: Users/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -107,7 +109,7 @@ namespace Week6CapstoneTaskList.Controllers
             }
             return View(user);
         }
-
+        [Authorize]
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -118,7 +120,7 @@ namespace Week6CapstoneTaskList.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        [Authorize]
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -127,7 +129,7 @@ namespace Week6CapstoneTaskList.Controllers
             }
             base.Dispose(disposing);
         }
-        
+        [AllowAnonymous]
         public ActionResult LogIn()
         {
             return View();
@@ -155,14 +157,22 @@ namespace Week6CapstoneTaskList.Controllers
                 },
                 "ApplicationCookie");
 
-                var ctx = Request.GetOwinContext();
-                var authManager = ctx.Authentication;
-
-                authManager.SignIn(identity);
-
-                return RedirectToAction("Index","Tasks",GetMyTasks());
+                return RedirectToAction("Index","Tasks");
             }        
             return RedirectToAction("LogIn");            
+        }
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("LogOut")]
+        public ActionResult LogOut()
+        {
+            HttpCookie UserLogin = new HttpCookie("UserLogin");
+            if (Request.Cookies["UserLogin"] != null)
+            {
+                UserLogin = null;
+            }
+
+            return RedirectToAction("Index", "Login");
         }
     }
 }
