@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -8,7 +9,7 @@ using Week6CapstoneTaskList.Domain.Models;
 
 namespace Week6CapstoneTaskList.Data
 {
-    public class Week6CapstoneTaskListContext : DbContext
+    public class Week6CapstoneTaskListContext : IdentityDbContext<User>
     {
         public Week6CapstoneTaskListContext() : base("TaskList")
         {

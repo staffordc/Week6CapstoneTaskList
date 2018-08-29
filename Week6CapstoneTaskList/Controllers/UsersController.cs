@@ -171,7 +171,6 @@ namespace Week6CapstoneTaskList.Controllers
             {
                 UserLogin = null;
             }
-
             return RedirectToAction("Index", "Login");
         }
     }
