@@ -12,10 +12,10 @@ using Week6CapstoneTaskList.Domain.Models;
 
 namespace Week6CapstoneTaskList.Controllers
 {
-    
+    [Authorize]
     public class UsersController : Controller
     {
-
+        
         private Week6CapstoneTaskListContext db = new Week6CapstoneTaskListContext();
         
         // GET: Users
@@ -133,7 +133,7 @@ namespace Week6CapstoneTaskList.Controllers
             return View();
         }
 
-        
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [HttpPost, ActionName("LogIn")]
         public ActionResult LogIn(string UserName, string Password)
@@ -160,7 +160,7 @@ namespace Week6CapstoneTaskList.Controllers
 
                 authManager.SignIn(identity);
 
-                return RedirectToAction("Index","Tasks");
+                return RedirectToAction("Index","Tasks",GetMyTasks());
             }        
             return RedirectToAction("LogIn");            
         }

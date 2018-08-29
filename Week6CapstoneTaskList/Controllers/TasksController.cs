@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -134,6 +135,13 @@ namespace Week6CapstoneTaskList.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        private IEnumerable<Task> GetMyTasks()
+        {
+            var currentUserId = User.Identity.GetUserId();
+            User currentUser = db.Users.FirstOrDefault
+                (x => x.Id == currentUserId);
+            return db.Tasks.ToList().Where(x => x.User == currentUser);
         }
     }
 }
